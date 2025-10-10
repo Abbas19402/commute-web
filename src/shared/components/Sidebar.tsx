@@ -7,6 +7,7 @@ import DeliveryTrackingDetails from "../../modules/Home/Components/DeliveryTrack
 import useService from "../hooks/useServices";
 import { LocationPinIcon, SpinnerIcon } from "./ui/Icons";
 import DriverSidebar from "../../modules/Home/Components/DriverSidebar";
+import axios from "axios";
 import type { DriverUserAccount } from "../types";
 import * as AuthFactory from '../../modules/Auth/factory'
 import HomeFactory from "../../modules/Home/factory";
@@ -27,7 +28,7 @@ const Sidebar: React.FC<{
   const [selectedDriver, setSelectedDriver] = useState<AuthFactory.MongoDriverUserDocument | null>(null)
 
   const { origin, destination, routeInfo, setOriginCoords, setDestinationCoords, originCoords, destinationCoords } = useMap()
-  const { role, user } = useAuth()
+  const { role, user,setDelivery } = useAuth()
   const { addToast } = useToaster()
   const services = useService(addToast)
 
@@ -64,6 +65,13 @@ const Sidebar: React.FC<{
               initialDriverLocation: { lat: originCoords[0], lng: originCoords[1] }
             });
         const response = await services.home.createDelivery(deliveryPayload)
+        setDelivery(HomeFactory.createRideFromMongoDBResponse(response.ride))
+        // TODO: MOve this API call to services
+        await axios.post('http://localhost:8080/api/send-email', {
+          to: 'kodeyan9@gmail.com',
+          subject: 'New Delivery Created',
+          text: `A new delivery has been created from ${originInput} to ${destinationInput} with trackingId ${response.ride._id}.`
+        });
         setLoading(false)
         setDestinationInput("")
         setOriginInput("")
@@ -71,7 +79,7 @@ const Sidebar: React.FC<{
         if(response.data) addToast("Delivery created successfully!")
       }
     }
-  }
+  } 
 
   async function fetchAvailableDrivers() {
     const response = await services.home.getAvailableDrivers()
