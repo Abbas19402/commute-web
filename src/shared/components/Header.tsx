@@ -8,13 +8,16 @@ import type { AdminUserAccount, Ride } from '../types';
 import { useMap } from '../hooks/useMap';
 import HomeFactory from '../../modules/Home/factory';
 import useService from '../hooks/useServices';
+import useSocket from '../hooks/useSocket';
 import { useToaster } from '../hooks/useToast';
 
 const Header = () => {
-  const { role, user, logout, setDelivery } = useAuth();
+
+  const { role, user, logout, setDelivery, delivery } = useAuth();
   const { setOriginCoords, setDestinationCoords } = useMap()
   const navigate = useNavigate();
   const toast = useToaster()
+    const { socket } = useSocket()
   const services = useService(toast.addToast)
 
   const [profileContext, setProfileContext] = useState<ContextMenuType[]>([])
@@ -30,12 +33,12 @@ const Header = () => {
   }
 
   async function createAdminDeliveriesMenu() {
-    if(user) {
+    if (user) {
       const response = await services.home.getAllDeliveries(user.id)
       const deliveryMenu = HomeFactory.createAdminDeliveriesContextMenuItems(
         response.rides,
-        (coordinates: [number,number]) => setOriginCoords(coordinates),
-        (coordinates: [number,number]) => setDestinationCoords(coordinates),
+        (coordinates: [number, number]) => setOriginCoords(coordinates),
+        (coordinates: [number, number]) => setDestinationCoords(coordinates),
         (delivery: Ride) => setDelivery(delivery)
       )
       setDeliveriesContextMenu(deliveryMenu)
@@ -51,6 +54,25 @@ const Header = () => {
     if (role === 'admin') createAdminDeliveriesMenu()
     setProfileContext(profileMenuItems)
   }, [user]);
+
+  useEffect(() => {
+    console.log("hello");
+    // if (socket) {
+      socket?.on('driver:location',({driverId, lat, lng}: {driverId: string, lat: number, lng: number}) => {
+        console.log(`Setting latitude longitude fff through socket ${driverId}, ${lat}, ${lng}` )
+        console.log("Current delivery in context", delivery)
+        console.log("Current delivery driverId", delivery?.driverId)
+        console.log("Received driverId", driverId)
+        if(delivery?.driverId === driverId) {
+          console.log("Updating delivery location in context")
+          setDelivery((prev) => {
+            const updatedDelivery = {...prev, lastDriverLocation: {lat: lat, lng: lng}}
+            return updatedDelivery
+          })
+        }
+      })
+    // }
+  }, [delivery, socket])
 
 
   return (

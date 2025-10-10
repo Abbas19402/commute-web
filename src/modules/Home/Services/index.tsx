@@ -77,7 +77,18 @@ const HomeServices = (toast: ToastFunction) => {
             return null;
         }
     }
-    
+
+    async function getDriverDelivery(driverId: string) {
+        try {
+            const { data } = await http.get(`/DriverUser/ride/${driverId}`)
+            return data
+        } catch (error: any) {
+            console.error(error);
+            toast(error.message,'error');
+            return null;
+        }
+    }
+
     async function getAvailableDrivers() {
         try {
             const { data } = await http.get('/DriverUser/availableDrivers')
@@ -88,6 +99,6 @@ const HomeServices = (toast: ToastFunction) => {
             return null;
         }
     }
-    return {getCoordinates, placesAutocompletion, createDelivery, getDeliveryDetails, getAddressUsingCoords, getAllDeliveries, getAvailableDrivers}
+    return {getCoordinates, placesAutocompletion, createDelivery, getDeliveryDetails, getAddressUsingCoords, getAllDeliveries, getAvailableDrivers, getDriverDelivery}
 }
 export default HomeServices
