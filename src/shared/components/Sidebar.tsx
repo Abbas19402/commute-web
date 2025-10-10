@@ -48,6 +48,7 @@ const Sidebar: React.FC<{
   async function createDelivery() {
     if(!selectedDriver && !originInput && !destinationInput) {
       addToast('Origin, Destination and Driver Selection is necessary to create a delivery!','error',2000)
+      return;
     }
     setLoading(true)
     if(selectedDriver) {
