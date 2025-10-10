@@ -24,7 +24,7 @@ export default function ChatSection() {
     { from: 'bot', text: 'Hi — ask me anything about the delivery or payment.' },
   ]);
   const [thinking, setThinking] = useState<boolean>(false);
-  const [userQuestionCount, setUserQuestionCount] = useState<number>(0); // ✅ question counter
+  const [_, setUserQuestionCount] = useState<number>(0);
 
   const boxRef = useRef<HTMLDivElement | null>(null);
 

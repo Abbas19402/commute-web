@@ -1,5 +1,5 @@
 import { useState, type Dispatch, type SetStateAction } from "react";
-import type { AdminUserAccount, DriverUserAccount } from "../../../shared/types";
+import type { AdminUserAccount } from "../../../shared/types";
 import { default_values } from "../../../shared/context/AuthContext";
 import useAuth from "../../../shared/hooks/useAuth";
 

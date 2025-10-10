@@ -8,7 +8,6 @@ import useService from "../hooks/useServices";
 import { LocationPinIcon, SpinnerIcon } from "./ui/Icons";
 import DriverSidebar from "../../modules/Home/Components/DriverSidebar";
 import axios from "axios";
-import type { DriverUserAccount } from "../types";
 import * as AuthFactory from '../../modules/Auth/factory'
 import HomeFactory from "../../modules/Home/factory";
 import { useToaster } from "../hooks/useToast";

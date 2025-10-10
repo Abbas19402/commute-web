@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import useAuth from '../../../shared/hooks/useAuth';

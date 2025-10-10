@@ -1,6 +1,6 @@
 import AuthService from "../../modules/Auth/Services";
 import HomeServices from "../../modules/Home/Services";
-import type { ToastFunction, ToastType } from "../types";
+import type { ToastFunction } from "../types";
 
 const useService = (toast: ToastFunction) => { 
     return {

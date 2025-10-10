@@ -1,4 +1,3 @@
-import React from 'react';
 import type { RefObject } from 'react';
 import type { Message } from '../usertypes';
 

@@ -1,5 +1,4 @@
-import React, { createContext, useState, useCallback, useContext, type ReactNode } from 'react';
-import type { ToasterContainerProps, ToastMessageProps, ToastType } from '../../types';
+import type { ToastMessageProps, ToastType } from '../../types';
 
 const Toaster: React.FC<ToastMessageProps> = ({ message, type, onClose }) => {
     const styleConfig: Record<ToastType, { icon: React.JSX.Element; barColor: string }> = {

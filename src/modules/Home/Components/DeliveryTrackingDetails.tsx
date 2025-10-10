@@ -3,11 +3,10 @@ import useAuth from '../../../shared/hooks/useAuth'
 import useService from '../../../shared/hooks/useServices';
 import type { Coordinates } from '../../../shared/types';
 import { useToaster } from '../../../shared/hooks/useToast';
-import HomeFactory from '../factory';
 import { useMap } from '../../../shared/hooks/useMap';
 
 const DeliveryTrackingDetails = () => {
-    const { delivery, setDelivery, user } = useAuth()
+    const { delivery, user } = useAuth()
     const { setOriginCoords, setDestinationCoords } = useMap()
     const toast = useToaster()
     const services = useService(toast.addToast)

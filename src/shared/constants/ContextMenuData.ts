@@ -1,5 +1,4 @@
 import { ContextMenuItemType, type ContextMenuType } from "../components/ui/ContextMenu";
-import type { AdminUserAccount } from "../types";
 
 const profileContextMenuItems: ( 
     navigate: any, 
